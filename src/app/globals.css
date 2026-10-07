@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink-950: #0b1220;
+  --color-ink-900: #0f1a2e;
+  --color-ink-800: #16223a;
+  --color-ink-700: #22314f;
+  --color-ink-600: #33456a;
+
+  --color-brand-50: #eff5ff;
+  --color-brand-100: #dbe7fe;
+  --color-brand-200: #bfd4fe;
+  --color-brand-300: #93b6fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+
+  --color-canvas: #f8fafc;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-white font-sans text-slate-600 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink-950;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-brand-100);
+    color: var(--color-ink-950);
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-brand-700 uppercase;
+  }
+
+  .eyebrow-dark {
+    @apply text-brand-300;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-on-dark {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[0.9375rem] font-semibold transition-colors duration-150;
+  }
+
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-sm shadow-ink-950/10 hover:bg-brand-700;
+  }
+
+  .btn-secondary {
+    @apply border border-slate-300 bg-white text-ink-950 hover:border-slate-400 hover:bg-slate-50;
+  }
+
+  .btn-on-dark {
+    @apply border border-white/20 bg-white/5 text-white hover:border-white/40 hover:bg-white/10;
+  }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:text-brand-800;
+  }
+
+  .link-arrow svg {
+    @apply transition-transform duration-150;
+  }
+
+  .link-arrow:hover svg {
+    transform: translateX(3px);
+  }
+
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white;
+  }
+
+  .prose-legal h2 {
+    @apply mt-10 mb-3 text-xl font-semibold;
+  }
+
+  .prose-legal p,
+  .prose-legal ul {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose-legal ul {
+    @apply list-disc space-y-1.5 pl-5;
+  }
+
+  .prose-legal a {
+    @apply font-medium text-brand-700 underline underline-offset-2 hover:text-brand-800;
+  }
+}
+
+/* Architectural grid backgrounds */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(15 23 42 / 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(15 23 42 / 0.055) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.mask-fade-b {
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+
+.mask-radial {
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* Hero topology animation */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.25;
+  }
+}
+
+.topo-flow {
+  stroke-dasharray: 4 8;
+  animation: flow 2.8s linear infinite;
+}
+
+.topo-flow-slow {
+  stroke-dasharray: 2 6;
+  animation: flow 5s linear infinite;
+}
+
+.topo-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 3.2s ease-out infinite;
+}
+
+.topo-blink {
+  animation: blink 4s ease-in-out infinite;
+}
+
+/* Scroll reveal: content is only hidden once JS has confirmed it can reveal it. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
